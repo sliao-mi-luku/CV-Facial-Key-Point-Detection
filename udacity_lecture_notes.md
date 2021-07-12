@@ -207,15 +207,28 @@ centers = np.uint8(centers)
 segmented_data = centers[labels.flatten()]
 
 segmented_image = segmented_data.reshape((image.shape))
+```
 
+### Image pyramids
 
+Blur and subsample to have 1/2 resolution
+
+```python3
+level_1 = cv2.pyrDown(image)
 ```
 
 
 ### ORB
 
-**Oriented Fast and Rotated Brief**
+Oriented **Fast** and Rotated **Brief**
 
+**FAST**: Features from Accelerated Segments Test
+
+FAST finds some keypoints of some edges
+
+**BRIEF**: Binary Robust Independent Elementary Features
+
+Ouput: 128-512 bit binary string
 
 
 
