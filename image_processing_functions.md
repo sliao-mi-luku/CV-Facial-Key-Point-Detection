@@ -1,5 +1,8 @@
 # Image Processing Functions
 
+Studying notes taken from Udacity Computer Vision Nanodegree
+
+---
 
 ### Display multiple images
 
@@ -69,7 +72,7 @@ upper = 240  # usually (2~3) x lower
 edges = cv2.Canny(gray_image, lower, upper)
 ```
 
-### Hough transform
+### Hough line detector
 
 ```python3
 rho = 1
@@ -88,9 +91,46 @@ for line in lines:
 
 ```
 
-### 
+### Hough circle detector
 
+[cv2 documentation](https://docs.opencv.org/master/d3/de5/tutorial_js_houghcircles.html)
 
+```python3
+detected_circles = cv2.HoughCircles(image=gray_image,
+                                    method=cv2.HOUGH_GRADIENT,
+                                    dp=1,
+                                    minDist=45,
+                                    param1=70,
+                                    param2=11,
+                                    minRadius=20,
+                                    maxRadius=40)
+                                    
+detected_circles = np.uint16(np.around(circles))
+
+# draw detected circles on image
+for cir in circles[0, :]:
+  # draw outer circle
+  cv2.circle(gray_image, center=(cir[0], cir[1]), radius=cir[2], color=(0,255,0), thickness=2)
+  # mark the circle center
+  cv2.circle(gray_image, center=(cir[0], cir[1]), radius=2, color=(0,0,255), thickness=3)
+
+```
+
+### Haar cascades
+
+```python3
+# load the classifier
+clf = cv2.CascadeClassifier('detector_architectures/haarcascade_frontalface_default.xml')
+
+# detect faces
+detected_faces = clf.detectMultiScale(gray_image, scaleFactor=4, minNeighbors=6)
+
+# plot bounding boxes on the image
+for (x, y, w, h) in detected_faces:
+  cv2.rectangle(gray_image, pt1=(x,y), pt2=(x+w,y+h), color=(255,0,0), thickness=5)
+
+plt.imshow(gray_image)
+```
 
 
 
