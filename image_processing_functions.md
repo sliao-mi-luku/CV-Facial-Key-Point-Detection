@@ -212,6 +212,10 @@ segmented_image = segmented_data.reshape((image.shape))
 ```
 
 
+### ORB
+
+**Oriented Fast and Rotated Brief**
+
 
 
 
