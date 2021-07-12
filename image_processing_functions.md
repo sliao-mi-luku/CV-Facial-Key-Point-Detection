@@ -133,5 +133,88 @@ plt.imshow(gray_image)
 ```
 
 
+### Corner detection
+
+Principle: detect an big change in the direction and magnitude of the gradient
+
+```python3
+# detect corners using cv2
+detected_corners = cv2.cornerHarris(gray_image, blockSize=2, ksize=3, k=0.04)
+
+# enchance corner points by dilation
+detected_corners = cv2.dilate(detected_corners, None)
+```
+
+### Dilation/Erosion
+
+```python3
+# dilation
+dilated_image = cv2.dilate(gray_image, kernel, iterations=1)
+
+# erosion
+eroded_image = cv2.erode(gray_image, kernel, iteration=1)
+```
+
+### Opening/Closing
+
+A useful way to remove noise
+
+> Opening = (erosion -> dilation)
+
+> Closing = (dilation -> erosion)
+
+```python3
+opened_image = cv2.morphologyEx(gray_image, cv2.MORPH_OPEN, kernel)
+
+closed_image = cv2.morphologyEx(gray_image, cv2.MORPH_CLOSE, kernel)
+```
+
+### Image contouring
+
+```python3
+# find contours
+ret, detected_contours, hierarchy = cv2.findContours(binary_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+# draw contours
+contoured_image = cv2.drawContours(binary_image, detected_contours, -1, (0, 255, 0), 2)
+
+# fit ellipse to the contour
+(x, y), (MA, ma), angle = cv2.fitEllipse(selected_contour)
+
+# fit bounding boxes to the contour
+x, y, w, h = cv2.boundingRect(selected_contour)
+```
+
+### K-means clustering
+
+[cv2 documentation](https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_ml/py_kmeans/py_kmeans_opencv/py_kmeans_opencv.html)
+
+```python3
+pixels = np.float32(image.reshape((-1, 3)))
+
+# define k
+k = 3
+
+# stopping criteria
+stopping_criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+
+# k-means clustering
+ret, labels, centers = cv2.kmeans(pixels, k, None, stopping_criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+
+# convert into 8-bit values
+centers = np.uint8(centers)
+
+segmented_data = centers[labels.flatten()]
+
+segmented_image = segmented_data.reshape((image.shape))
+
+
+```
+
+
+
+
+
+
 
 
