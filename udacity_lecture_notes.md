@@ -232,6 +232,64 @@ Ouput: 128-512 bit binary string
 
 
 
+### Defining layers in PyTorch
+
+```python3
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class Network(nn.Module):
+
+  def __init__(self, ...):
+    super(Network, self).__init__()
+    
+    # define layers
+    self.conv1 = nn.Conv2d(...)
+    self.conv2 = nn.Conv2d(...)
+    self.pool = nn.MaxPool2D(...)
+    self.fc = nn.Linear(...)
+    
+  def forward(self, x):
+    x = self.conv1(x)
+    x = F.relu(x)
+    x = self.pool(x)
+    x = self.conv2(x)
+    x = x.view(x.size(0), -1)
+    x = F.relu(self.fc(x))
+    return x
+    
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
