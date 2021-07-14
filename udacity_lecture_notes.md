@@ -261,7 +261,20 @@ class Network(nn.Module):
     
 ```
 
+### Create dataset class
 
+[PyTorch tutorial](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html)
+
+Create custom class inheriting `torch.utils.data.Dataset` with functions `__len__()` and `__getitem__()`:
+
+`__len__()` returns the size of the dataset
+
+`__getitem__()` supports the indexing methods
+
+```python3
+
+
+```
 
 
 
