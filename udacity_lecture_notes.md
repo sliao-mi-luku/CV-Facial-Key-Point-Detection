@@ -273,14 +273,86 @@ Create custom class inheriting `torch.utils.data.Dataset` with functions `__len_
 
 ```python3
 
+from torch.utils.data import Dataset, DataLoader
 
+"""
+Define my custom dataset
+"""
+class CustomDataset(Dataset):
+
+  def __init__(self, data_path, transform=None):
+    """
+    params: the parameters needed
+    transform: this is a useful if we want to add some transforms on the dataset when we create them
+    """
+    self.data = pd.read_csv(data_path)
+    self.data_path = data_path
+    self.transform = transform
+    
+  def __len__(self):
+    """
+    This method should return the length of the dataset
+    """
+    return len(self.data)
+    
+  def __getitem__(self, idx):
+    """
+    This method should return dataset[idx]
+    """
+    
+    x = self.data[idx]
+    
+    if self.transform:
+      x = self.transform(x)
+      
+    return x
+    
 ```
 
 
+### Transforms
+
+Creat some transforming functions so that parameters don't need to be passed in all the time.
+
+Example of usage:
+
+```python3
+
+class Transform_FX(object):
+
+  def __init__(self, params):
+    """
+    Initiate the transform function with given parameters
+    """
+    pass
+  
+  def __call__(self, data):
+    """
+    Write the process of transformation here
+    """
+    pass
 
 
+transform_fx = Transform_FX(params)
+
+transformed_data = transform_fx(data)
+```
 
 
+### Concatenate transform functions
+
+Use `torchvision.transforms.Compoase` to concatnate multiple transform functions
+
+```python3
+from torchvision import transforms
+
+transform_fx1 = TRANSFORM_FX1(param1)
+transform_fx2 = TRANSFORM_FX2(param2)
+
+composed_transform_fx = transforms.Compose([transform_fx1, transform_fx2])
+```
+
+### 
 
 
 
